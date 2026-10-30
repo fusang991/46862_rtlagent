@@ -1,0 +1,7 @@
+- Nonblocking assignments read the old register values. When an output must include the input sampled on the current edge, derive it from that input and the appropriate next state rather than accidentally testing only the old state.
+- A shift must move the existing bits; merely replacing the low bit of an unchanged slice does not shift the register.
+- Implement the stated reset polarity and synchronous/asynchronous behavior, and preserve the specified priority between reset, load, enable, and normal operation.
+- Check every slice and concatenation width. For arithmetic over individual bits, ensure the expression retains the required carry bits.
+- Follow the original answer format and return the complete design, including any required helper modules.
+- Match the requested clock edge exactly. A flip-flop sensitive to both edges in one always block is not a replacement for a specified single-edge register and is not a legal generic dual-edge implementation for this toolchain.
+- Keep continuous assign statements at module scope. Inside always_comb, use ordinary blocking procedural assignments; do not place assign statements to variable bit-selects inside the procedural block.

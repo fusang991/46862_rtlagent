@@ -1,0 +1,13 @@
+- Treat each eval call as one observation cycle. Compute next state from the old state and current inputs, then return the outputs for the cycle described in the question.
+- Do not wait for a separate clock waveform inside eval; the harness already advances the circuit.
+- For binary patterns, prefer Python's 0b literals or int(bit_string, 2); keep the bit order exactly as stated.
+- Apply masks after finite-width arithmetic and shifts. Distinguish logical right shift of unsigned values from signed arithmetic shift.
+- Model reset polarity and priority explicitly. Return an integer for every declared output on every call, including reset and hold cycles.
+- Keep the original class TopModule and eval interface and answer format.
+- Advance sequential state exactly once per eval call. Repeating a transition to "settle" combinational logic can incorrectly toggle or count twice; settle combinational expressions without advancing stored state again.
+- When a state vector is an input port, read that supplied vector on every eval call. Do not replace it with an invented internal state register. For a combinational decoder, compute the outputs from current inputs unless the statement explicitly requires storage.
+
+- Prefer short intermediate variables and ordinary if/else statements to deeply nested conditional expressions. Avoid repeatedly wrapping the same width mask or expanding a vector operation into one enormous expression.
+- Python conditional expressions require both branches: value_if_true if condition else value_if_false. Keep parentheses balanced and use Python literals and operators rather than Verilog syntax.
+- Access ports whose names are Python keywords through the inputs dictionary; use a different valid local variable name. Return only ordinary integer output values that the original harness can serialize.
+- If a clock is an explicitly sampled input controlling transparent latches in the supplied waveform, follow those input levels rather than assuming an edge-only register model.

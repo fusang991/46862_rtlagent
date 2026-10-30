@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qiansai"
+version = "0.1.0"
+description = "RTL competition workspace around pinned ChipMATE dual-4B inference"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "chipmate-inference",
+    "PyYAML>=6.0.2,<7",
+    "huggingface-hub>=0.34,<2",
+]
+
+[project.scripts]
+qiansai-run = "qiansai.runner:main"
+qiansai-baseline = "qiansai.baseline:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.uv.sources]
+chipmate-inference = { path = "third_party/chipmate", editable = true }
+
+[tool.setuptools.packages.find]
+where = ["src"]

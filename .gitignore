@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+models/
+service_logs/
+jobs/
+.env

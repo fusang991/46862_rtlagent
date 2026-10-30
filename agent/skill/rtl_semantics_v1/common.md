@@ -1,0 +1,7 @@
+- Read the exact port directions, widths, reset polarity, priority, and cycle of each output from the question.
+- Preserve constants in their original base. Do not mentally translate a binary pattern to a decimal constant; use a binary literal or an explicit base-2 conversion.
+- Arithmetic sums, bitwise OR, logical OR, reduction OR, and parity are different operations. Counts require arithmetic with enough result bits.
+- Keep every state and result within its declared width. Check overflow, truncation, carry, and signedness explicitly.
+- Test reset, hold, load, and boundary transitions against the statement. Agreement with another implementation is useful evidence, not proof that both interpreted the statement correctly.
+- When the statement supplies a truth table or waveform, check every provided input/output row against the derived expression; a familiar-looking expression is not enough.
+- Distinguish a scalar condition selecting a whole vector from a bit mask. A one-bit select signal does not automatically become a vector of repeated bits in a bitwise expression.

@@ -1,0 +1,7 @@
+# Upstream root README Table 1 protocol; no algorithm changes.
+n: 3
+max_turns: 3
+num_verify_tests: 1000
+temperature: 1.0
+seed: 42
+workers: 1

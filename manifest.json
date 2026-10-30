@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "track": "rtl",
+  "model": {
+    "name": "core12345/ChipMATE-V-4B",
+    "source": "https://huggingface.co/core12345/ChipMATE-V-4B",
+    "revision": "7fbb17249a49d109787bbc024a7a21b83302a1c2",
+    "quantization": "none",
+    "dtype": "bfloat16",
+    "base_model": "Qwen/Qwen3.5-4B",
+    "stored_tensor_elements": 4539265536,
+    "execution_location": "local W7900D GPU",
+    "measured_vram_gb": null,
+    "allocation_budget_bytes": 14000000000,
+    "finetuned": true,
+    "finetune_weights_url": "https://huggingface.co/core12345/ChipMATE-V-4B",
+    "files_access": "gated"
+  },
+  "auxiliary_models": [
+    {
+      "name": "core12345/ChipMATE-P-4B",
+      "source": "https://huggingface.co/core12345/ChipMATE-P-4B",
+      "revision": "cf59695163ad3e4b63bcc6c4eaa91b05fedc4a2e",
+      "purpose": "generate Python behavioral reference models",
+      "generates_code": true,
+      "classification": "pending organizer confirmation",
+      "base_model": "Qwen/Qwen3.5-4B",
+      "stored_tensor_elements": 4539265536,
+      "execution_location": "local W7900D GPU",
+      "measured_vram_gb": null,
+      "dtype": "bfloat16",
+      "allocation_budget_bytes": 14000000000
+    }
+  ],
+  "context": {
+    "max_model_len": 24576,
+    "max_output_tokens": 16384,
+    "rope_scaling": null
+  },
+  "generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": true
+    }
+  },
+  "serving": {
+    "backend": "vllm",
+    "version": "0.27.1.dev5+gf46a9dfe2.d20260827.rocm100",
+    "start_command": "./serve/start.sh",
+    "port": 8001,
+    "total_gpu_memory_limit_bytes": 32000000000,
+    "historical_sampled_peak_total_gb": 29.128
+  },
+  "endpoints": {
+    "solve": "./run.sh",
+    "baseline": "./run_baseline.sh",
+    "http_port": 7860
+  },
+  "agent": {
+    "max_rounds": 3,
+    "candidates_per_role": 3,
+    "verification_stimuli": 1000,
+    "default_optional_skills": []
+  },
+  "eligibility_pending": [
+    "main checkpoint files require access approval",
+    "P generates Python code and its classification needs organizer confirmation"
+  ]
+}

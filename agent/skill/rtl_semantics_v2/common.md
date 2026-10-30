@@ -1,0 +1,11 @@
+- Read the exact port directions, widths, reset polarity, priority, and cycle of each output from the question.
+- Preserve constants in their original base. Do not mentally translate a binary pattern to a decimal constant; use a binary literal or an explicit base-2 conversion.
+- Arithmetic sums, bitwise OR, logical OR, reduction OR, and parity are different operations. Counts require arithmetic with enough result bits.
+- Keep every state and result within its declared width. Check overflow, truncation, carry, and signedness explicitly.
+- Test reset, hold, load, and boundary transitions against the statement. Agreement with another implementation is useful evidence, not proof that both interpreted the statement correctly.
+- When the statement supplies a truth table or waveform, check every provided input/output row against the derived expression; a familiar-looking expression is not enough.
+- Distinguish a scalar condition selecting a whole vector from a bit mask. A one-bit select signal does not automatically become a vector of repeated bits in a bitwise expression.
+- Determine which state is owned by the module and which state is supplied through input ports. Preserve the specified boundary between a combinational decoder and a clocked machine.
+- Use only input guarantees stated in the question. Do not silently invent constraints on control combinations, vector patterns, or initialization that would change the required behavior.
+- For a bounded enable or pulse sequence, enumerate the asserted cycles and the first deasserted cycle after reset release. A terminal condition described as lasting until reset must remain in that condition.
+- For a sequential waveform, track the input sampled at each clock edge and the output after that edge. A combinational expression with the right value in some rows can still omit a required register or delay.

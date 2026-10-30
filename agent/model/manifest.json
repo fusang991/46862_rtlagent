@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "status": "amd_vivado_cold14_validated",
+  "verification": {
+    "run": "runs/20260911_140804_nvidia_full_suite",
+    "journal": "docs/journal/20260911_193029_full_suite_results.md",
+    "code_commit": "0870769de27fe5cee0f2f550d9a8220748f284e8",
+    "metrics_sha256": "ee24d404d750292f63933c2cbd848c20bcc0d73e0b72abe2f7ad1e7bf6632c6f",
+    "gpu_summary_sha256": "b94a24e1f7529211cd34675d9a6488152e2043aeafcca63e6c678c51b5053dab",
+    "independent_passed": 109,
+    "selected": 156,
+    "raw_failed": 47,
+    "execution_errors": 0,
+    "not_run": 0,
+    "reference_control": {
+      "run": "runs/20260911_193510_evaluator_reference_control",
+      "passed": 151,
+      "failed": 5,
+      "affected_task_ids": [
+        "Prob082_lfsr32",
+        "Prob099_m2014_q6c",
+        "Prob141_count_clock",
+        "Prob151_review2015_fsm",
+        "Prob156_review2015_fancytimer"
+      ],
+      "metrics_sha256": "69eff09a7bfd5e4d8097f09b15443a290b53c2e3acae13001078e01655441f08"
+    },
+    "scope": "One original workflow per task, all 156 retained; raw independent results; five evaluator limitations; no paper pass@k, AMD or Vivado claim"
+  },
+  "models": {
+    "v": {
+      "repo_id": "core12345/ChipMATE-V-4B",
+      "revision": "7fbb17249a49d109787bbc024a7a21b83302a1c2",
+      "directory": "chipmate-v-4b",
+      "dtype": "bfloat16",
+      "weight_bytes": 9078620536,
+      "weight_sha256": "1e829e646df26f4882bceaf6b6f9629c1a1a317d63f66b40e51ff8d92d458826"
+    },
+    "p": {
+      "repo_id": "core12345/ChipMATE-P-4B",
+      "revision": "cf59695163ad3e4b63bcc6c4eaa91b05fedc4a2e",
+      "directory": "chipmate-p-4b",
+      "dtype": "bfloat16",
+      "weight_bytes": 9078620536,
+      "weight_sha256": "8ac6cacb9bcd834e28d008e510e6af28923105e471c22f05cee2130a8f64fb4d"
+    }
+  },
+  "deployment_smoke_verification": {
+    "run": "runs/20260911_134142_nvidia_acceptance",
+    "journal": "docs/journal/20260911_123913_cloud_resume.md",
+    "metrics_sha256": "ce305d9f36db5bfef7c73c2f0421ffc6a1968b560b7ce1c6759eb2dc658d7e75",
+    "gpu_summary_sha256": "c642838b13b2152a8057e67eb1a4bff8bc2f8cb5a3ab9ca0055dc6bf741cab66",
+    "independent_passed": 3,
+    "selected": 3,
+    "scope": "deployment smoke; not a full benchmark or AMD validation"
+  },
+  "amd_vivado_smoke_verification": {
+    "run": "runs/20261017_230341_archive_deployment/amd_model_smoke_evidence",
+    "journal": "docs/journal/20261017_230341_archive_deployment.md",
+    "official_commit": "f7a8bd465c2a820e006c7a00ecc7df468974635b",
+    "source_bundle_sha256": "e06b52d12f1c3864e2ec7c20e9ce647214470b6d29213dc821e26be4705e462e",
+    "artifact_archive_sha256": "ed8f4918b620f3a5b18d15573ab1209a4d7013f29871c77122324d29c11b4de1",
+    "selected": 3,
+    "levels": {
+      "ex01_popcount8": 3,
+      "ex02_detect_1101": 1,
+      "ex03_lfsr8": 3
+    },
+    "sampled_peak_used_bytes": 31717519360,
+    "sampling_errors": 0,
+    "scope": "Real W7900D/Vivado three-example deployment smoke, two L3 and one L1; sampled VRAM under 32 decimal GB; not a full benchmark or physical 32 GB GPU validation"
+  },
+  "amd_vivado_full_verification": {
+    "recorded_at": "2026-10-18T06:52:25.723166+08:00",
+    "journal": "docs/journal/20261017_234742_autonomous_iteration.md",
+    "run": "runs/20261017_234742_autonomous_iteration/full_original",
+    "report": "docs/guides/autonomous_iteration_20261018.md",
+    "official_commit": "f7a8bd465c2a820e006c7a00ecc7df468974635b",
+    "source_bundle_sha256": "1f38c1aa4fc7fe1c2f5ede575cee6d18b6df95ec80f54879b709dbc0363260a9",
+    "official_score_sha256": "e3d3fa3daf5dfe303f6b3ae2b948ff3abbdf806f183a25bbeac772e82342a0cb",
+    "tasks": 156,
+    "samples_per_task_per_mode": 1,
+    "agent_levels": {
+      "L3": 116,
+      "L1": 32,
+      "L0": 8
+    },
+    "baseline_levels": {
+      "L3": 75,
+      "L1": 40,
+      "L0": 41
+    },
+    "agent_set_score": 0.7846,
+    "baseline_set_score": 0.5321,
+    "capability_score": 23.54,
+    "gain_score": 35.98,
+    "agent_worker_execution_errors": 1,
+    "execution_error_task": "Prob031_dff",
+    "wall_seconds": 21153.775445969775,
+    "scope": "Original workflow on W7900D/gfx1100 and official Vivado; one sample per task, not a five-sample or private-final score; raw fixture limitations retained; cost and engineering points unmeasured"
+  },
+  "amd_absolute_memory_cold_verification": {
+    "recorded_at": "2026-10-18T00:54:42.586265+00:00",
+    "run": "/workspace/qiansai-iterations/20261017_234742/final_deployment/cold_20261018_085317_14ce1d01",
+    "summary_sha256": "97b1b2311e2fcaa784371188e1da3a5790374a4abe894d24a468f14c9621fa5b",
+    "confirmed_cold_sha256": "900e9ac56956b290c5e11b5d4f135f3ca352fb787a917c962a235c47801dc4c2",
+    "status": "passed",
+    "gpu_memory_budget_bytes_per_service": 14000000000,
+    "total_budget_bytes": 32000000000,
+    "physical_gpu_bytes": 51522830336,
+    "startup_wall_seconds": 80.24156612157822,
+    "model_services": [
+      {
+        "pid": 799448,
+        "argv": [
+          "/opt/python/bin/python",
+          "/opt/python/bin/vllm",
+          "serve",
+          "/workspace/models/chipmate-4b-20261017_230341/chipmate-v-4b",
+          "--served-model-name",
+          "core12345/ChipMATE-V-4B",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "8001",
+          "--dtype",
+          "bfloat16",
+          "--max-model-len",
+          "24576",
+          "--max-num-seqs",
+          "3",
+          "--gpu-memory-utilization",
+          "0.2717242028184529",
+          "--enforce-eager",
+          "--language-model-only",
+          "--no-enable-log-requests"
+        ],
+        "model": "core12345/ChipMATE-V-4B"
+      },
+      {
+        "pid": 799651,
+        "argv": [
+          "/opt/python/bin/python",
+          "/opt/python/bin/vllm",
+          "serve",
+          "/workspace/models/chipmate-4b-20261017_230341/chipmate-p-4b",
+          "--served-model-name",
+          "core12345/ChipMATE-P-4B",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "8002",
+          "--dtype",
+          "bfloat16",
+          "--max-model-len",
+          "24576",
+          "--max-num-seqs",
+          "3",
+          "--gpu-memory-utilization",
+          "0.2717242028184529",
+          "--enforce-eager",
+          "--language-model-only",
+          "--no-enable-log-requests"
+        ],
+        "model": "core12345/ChipMATE-P-4B"
+      }
+    ],
+    "resident_supervisor_pid": 799447,
+    "memory_sampling_interval_s": 0.2,
+    "memory_window_status": "continues through real inference; final sampled peak reported separately",
+    "scope": "Real cold model startup on the existing ~48 GiB development GPU with absolute 14 GB/model allocation; not physical 32 GB/R9700 or a new inference benchmark"
+  }
+}
