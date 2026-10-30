@@ -1,81 +1,84 @@
-# RTL Agent Design Report — Draft
+# RTL 智能体设计报告（草稿）
 
-Team number: 46862. Final author details: to be supplied by the team. This
-document is a draft and is not a claim that competition compliance has been approved.
+## 1. 方案概述
 
-## 1. Objective
+本方案面向自然语言硬件规格，生成可编译、可仿真和可综合的 RTL。设计思路是将任务的功能语义与硬件语言表达分工处理：一条路径负责把规格实现成 Verilog，另一条路径独立描述规格要求的行为，再通过交叉验证发现差异。方案同时保留赛事方原样的单模型基线，便于比较智能体流程带来的效果。
 
-Generate Verilog/SystemVerilog for an unseen specification using local models,
-with an independently runnable same-model official baseline.
+## 2. 总体架构
 
-## 2. Architecture
+![双智能体 RTL 生成架构](assets/chipmate_agent_architecture_zh.png)
 
-ChipMATE-V-4B proposes RTL and ChipMATE-P-4B proposes Python behavior. The
-original multi-agent workflow cross-verifies generated candidates using Vivado.
-Two local inference services share one GPU; an authenticated asynchronous HTTP
-service exposes the solution and baseline modes. No golden implementation or
-official testbench is supplied to generation.
+图中候选对的分数和高亮用于说明选择过程，并非具体题目的实测分数。
 
-## 3. Models and inference
+- **Verilog 智能体（V）**：生成符合模块接口、时序和语法要求的 RTL 候选。
+- **Python 智能体（P）**：独立生成行为参考模型，侧重表达规格的功能语义。
+- **交叉验证**：对两种实现施加相同随机输入，使用 Vivado XSim 仿真 RTL、执行 Python 行为模型，并比较输出。
+- **选择与修正**：按一致率选择候选对，将不一致记录反馈给两个智能体；保留历史较优候选，在达到停止条件或轮数上限后输出 RTL。
 
-See `model/MODEL.md` and `manifest.json`. Both checkpoints were published by
-ChipMATE and have not been additionally trained by this team. The V checkpoint
-is the main model; P generates Python behavioral models. The gated weight
-access and the competition classification of P need organizer confirmation.
+这种分工将功能表达与 HDL 实现分开核对，但两个模型都可能误解同一条规格；交叉一致只说明内部一致，不能替代独立测试的通过结论。
 
-## 4. Agent and 5. Skills
+## 3. 模型选择与训练来源
 
-The selected configuration is the original n=3, at most three-turn V/P flow
-with 1,000 generated verification stimuli. Optional research policies and
-same-task answer material are not enabled in this submitted configuration.
-The included skill documentation is provided for inspection; its presence alone
-does not establish that an optional skill is active or improves accuracy.
+选择 ChipMATE-V-4B 和 ChipMATE-P-4B，是因为它们分别面向 Verilog 实现和 Python 参考模型生成，能够在同一规格下形成两种实现并互相检查；4B 级模型也便于在单卡资源预算内同时部署。两者基于 Qwen3.5-4B，使用 BF16、不量化。模型地址、完整版本号、上下文和显存配置见 `model/MODEL.md`。
 
-## 6. Historical development results
+ChipMATE 上游的训练过程先针对 Verilog 与 Python 任务分别训练两个智能体，再进行多智能体协作强化训练。本方案直接使用上游发布的权重，**本队没有重新训练或微调模型**。
 
-On the 156 publicly available converted VerilogEval tasks, a historical W7900D
-and Vivado comparison used one sample per task per mode: the original V/P flow
-had 116 L3, 32 L1 and 8 L0; the official single-V baseline had 75 L3, 40 L1
-and 41 L0. Reported ability/gain formula values were 23.54/30 and 35.98/40.
-These are development-set results, not a private competition score, a five-
-sample stability result, or the full score. One agent execution error on task
-031 and known evaluator/input limitations were retained in the source record.
+当前模型文件获取需要接受访问条件，是否满足赛事方公开获取要求仍需确认；P 模型生成 Python 代码，其赛事规则分类也需确认。
 
-## 7. Reproduction
+## 4. 智能体控制流程
 
-Prepare the pinned model files locally, configure the official Vivado license,
-then run `serve/start.sh` and use `run.sh <task_dir> <out_dir>` or the unchanged
-official baseline. See README.md. The competition-provided Docker base is
-available inside the platform; teams are not required to build the image there.
+每轮生成 3 对候选，以 1000 组随机刺激进行交叉验证，最多 3 轮；不一致记录用于后续修正。单题入口为 `run.sh`，默认时间预算为 900 秒。若发生超时或工具错误，保留实际记录，不把内部一致率记作官方通过。
 
-## 8. Failure analysis
+## 5. 技能与工具
 
-Public development results contain functional, interface and execution failures.
-The two-model agreement is internal evidence, not an independently judged pass.
-The public main-model files are gated and the P-model policy classification is
-unresolved. Current package validation and competition-endpoint status must be
-added after the corresponding checks; do not treat prior scores as new results.
+方案保留 `skill/` 中的技能说明，当前默认配置不启用额外研究策略。RTL 仿真通过 Vivado 的 `xvlog`、`xelab`、`xsim` 完成；Python 行为模型在独立进程执行。任务参考实现和官方测试台只用于独立评测，不作为生成输入。
 
-## 9. Design contributions and 10. Conclusions
+## 6. 开发集结果
 
-The submitted default preserves the existing V/P verification loop, isolated
-model services, official baseline and deadline-controlled single-task wrapper.
-Further comparison with held-out tasks, service endurance and official
-reproduction are still required.
+历史公开开发集共 156 题、每题单次采样；结果用于开发对照，不是正式比赛成绩：
 
-## 11. References
+| 结果 | 双模型方案 | 官方单模型基线 |
+| --- | ---: | ---: |
+| L3 | 116 | 75 |
+| L2 | 0 | 0 |
+| L1 | 32 | 40 |
+| L0 | 8 | 41 |
 
-- ChipMATE upstream, commit `d94087b5159aea482648b26398a2ffb164246671`.
-- Competition reference repository; exact version is in `provenance.json`.
-- Model cards and pinned weight revisions are listed in `model/MODEL.md`.
+上述数据不能代表五次采样稳定性或私有题表现。另一次真实公开单题测试中，直接入口和模拟 HTTP 投题的方案均判为 L3，基线均判为 L1；双模型显存采样峰值约 28.38 GB。该单题结果不等于全题集成绩。
 
-## 12. Large-model collaboration record
+## 7. 运行与复现
 
-The team used a coding assistant during development and validation. The exact
-model/tool versions, team-vs-assistant contribution attribution, accepted and
-rejected suggestions, and validation evidence must be completed by the team.
+在赛事环境准备好模型权重、工具和许可后，`serve/start.sh` 启动常驻模型；`run.sh <input_dir> <output_dir>` 运行方案，`run_baseline.sh` 使用相同模型服务运行官方基线。公网投题服务由 `serve/run_api.sh` 管理。赛事方提供的基础镜像及环境配置见 `Dockerfile` 与 `README.md`；模型权重不放入 Git 仓库。
 
-## 13. Appendix
+## 8. 失败分析
 
-Complete task-level results, logs, training-source details and final competition
-validation are to be supplied in the final report; they are not bundled here.
+对原方案的 40 个未达 L3 开发样本进行诊断：32 个为 L1、8 个为 L0。主要问题包括时钟与采样、组合表达式、寄存器数据通路、状态机以及语法合法性。例如：
+
+- **时钟边沿错误**：某负沿触发题生成了双沿行为，虽能编译，但仿真与规格不符。
+- **状态机语义错误**：某题的完成状态不可达，输出一直保持无效，说明状态转移约束没有表达完整。
+- **语法合法性错误**：某串行状态机使用 SystemVerilog 保留字作为变量名，导致编译失败。
+- **内部一致但功能错误**：部分候选对一致率达到 1，独立测试仍失败，说明两个模型可能共享误解或随机刺激覆盖不足。
+
+开发评测中也发现个别测试台接口、超时或初始状态条件限制；这些情况单独记录，原始等级不改写，也不推断正式私有题存在同样问题。
+
+## 9. 设计特点与边界
+
+方案的特点是将 RTL 实现与行为参考分开生成，通过实际仿真和反馈选择候选。与单次裸跑相比，历史开发集观察到更多 L3，但该对照不能单独证明每一个环节的因果贡献。对长时序、状态边界和随机刺激未覆盖的场景，仍可能产生相同方向的错误。
+
+## 10. 结论与后续
+
+当前已完成开发验证和公网健康检查；正式题集表现、五次采样稳定性与最终复现结果仍以赛事评测为准。后续重点是补强时钟、复位和状态转移的检查，并确认模型公开获取及赛事规则适用性。
+
+## 11. 参考资料
+
+- ChipMATE 论文：<https://arxiv.org/abs/2605.12857>。
+- ChipMATE 上游源码：<https://github.com/zhongkaiyu/ChipMATE>，固定版本见 `provenance.json`。
+- 模型来源及固定版本见 `model/MODEL.md`。
+
+## 12. 大模型协作记录
+
+开发过程中使用了大模型辅助分析、代码整理和验证；实验结论以实际工具记录与独立评测为准。具体工具版本、团队与助手分工以及采纳和修正记录待最终报告补齐。
+
+## 13. 附录
+
+完整逐题结果与原始运行日志保留在开发记录中；本仓库不包含大体积模型权重和运行产物。

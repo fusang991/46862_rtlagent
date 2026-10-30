@@ -11,7 +11,7 @@
     "Dockerfile": "33ab72c44c60c14c772a629de302f94198f64d3ebcf9f4b96b060f57799b2761",
     "OFFICIAL_LICENSE": "2e5c9605f7b45921136ac59e99fec73edab61593e8adfe876e4cddcc6d806cf1",
     "README.md": "92dbfa5603a9c116afe74beac8c056192e286b326ff98b289fd198efc346d2e7",
-    "REPORT.md": "ba7e9d5bd64edb5adc411d2cb40dfaca757982cdb161c3e743659044e7159ec6",
+    "REPORT.md": "6c3a5fa91d27f51e59531a7f983605bde192fdec2933aa32bb63109f27e57742",
     "agent/MODEL.md": "d77798a8f3e1c4c4c49dd831e956c69da50d88803d3fb34d659a118b21256329",
     "agent/README.md": "c62cb26258a73b1438f00cede033ae4ad0dbd42c01ca0fd64fb92e31a93a39f0",
     "agent/model/manifest.json": "4ad9f9c0feecc6fe20653191c9c4670b9310fc58304ae1494af2762a2dc4173c",
@@ -100,6 +100,7 @@
     "skill/rtl_semantics_v3/common.md": "320c2df9fe6795a9113594d1b386c4efe5ad83368fc02b1875af41ac1c5f0ac0",
     "skill/rtl_semantics_v3/python.md": "f70ccfd52e5ad497143cee856439cd048f7f29188152e2c49b55e133d4fdecce",
     "skill/rtl_semantics_v3/verilog.md": "ef4e2020174d4c6ff31581bfc1fde5033a9d69ce3b5e08553e55af0fc605a170",
-    "skill/verification_v1/README.md": "f13a578458de7f0d31e2b6136c07a1ccbd65fadbfe65670652157e0743c5f268"
+    "skill/verification_v1/README.md": "f13a578458de7f0d31e2b6136c07a1ccbd65fadbfe65670652157e0743c5f268",
+    "assets/chipmate_agent_architecture_zh.png": "a80a383ede30f428efac58a7a620e880b7a509e932bde8c65084c5db23613699"
   }
 }
