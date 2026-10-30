@@ -102,8 +102,8 @@
     "skill/rtl_semantics_v3/verilog.md": "ef4e2020174d4c6ff31581bfc1fde5033a9d69ce3b5e08553e55af0fc605a170",
     "skill/verification_v1/README.md": "f13a578458de7f0d31e2b6136c07a1ccbd65fadbfe65670652157e0743c5f268",
     "assets/chipmate_agent_architecture_zh.png": "a80a383ede30f428efac58a7a620e880b7a509e932bde8c65084c5db23613699",
-    "assets/semantic_failures.png": "9e6d4e5d740167158147fc0021cfa8f570d9df664e449d20eb8b17549b86ca3d",
-    "assets/overall_l3_comparison.png": "5fe3fa84cb3a01b7839467bb42324581f7e954ec8fac2cf34555ad530df61d05",
+    "assets/semantic_failures.png": "ed57630d2e4490cc99e581d5308a0c2b26496154b004c9ddfaeb497cb76d09eb",
+    "assets/overall_l3_comparison.png": "9c91b2140627cbba42625badc4af5ca959457afb814effa23527f4c03506f3d5",
     "analysis/case_taxonomy.csv": "8f586e0047732f380b3146c073067d317c7a8018e9d3aa69bf5ad093a92954a4",
     "analysis/category_summary.csv": "69f5236cec5011eb407ea969b9cac6451f4930802c912d311485f28ea3b1d66d"
   }
